@@ -1,0 +1,19 @@
+name: Verify
+
+on:
+  pull_request: null
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build image
+      run: docker build -t plantuml .
+
+    - name: Run sample
+      run: docker run --rm -w /work -v `pwd`:/work plantuml -tpdf sample.puml
